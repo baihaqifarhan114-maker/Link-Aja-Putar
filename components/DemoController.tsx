@@ -18,6 +18,7 @@ const JUMPS = [
   { label: "Transfer", href: "/transfer" },
   { label: "Riwayat", href: "/riwayat" },
   { label: "Siklus", href: "/siklus" },
+  { label: "Asisten", href: "/asisten" },
   { label: "Akun", href: "/akun" },
   { label: "Promo", href: "/promo" },
   { label: "Login", href: "/login" },
@@ -65,7 +66,7 @@ export function DemoController() {
             className="absolute bottom-[150px] right-3 z-[70] w-[262px] rounded-2xl bg-white p-3.5 shadow-float surface-line lg:bottom-[90px] lg:right-6"
           >
             <div className="mb-2 flex items-center justify-between">
-              <p className="text-[13px] font-extrabold text-ink">Demo Controller</p>
+              <p className="text-[13px] font-extrabold text-ink">Panel Peraga</p>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -130,13 +131,13 @@ export function DemoController() {
                   resetDemo();
                   setOpen(false);
                   toast.show({
-                    message: "Demo direset ke kondisi awal",
+                    message: "Data diatur ulang ke kondisi awal",
                     variant: "success",
                   });
                 }}
                 className="press flex w-full items-center gap-2 rounded-xl bg-bg px-3 py-2 text-left text-[12.5px] font-bold text-ink-2"
               >
-                <RotateCcw size={15} /> Reset Demo
+                <RotateCcw size={15} /> Atur Ulang
               </button>
             </div>
           </motion.div>
@@ -147,7 +148,7 @@ export function DemoController() {
         type="button"
         whileTap={{ scale: 0.94 }}
         onClick={() => setOpen((o) => !o)}
-        aria-label="Demo controller"
+        aria-label="Panel peraga"
         className="absolute bottom-24 right-3 z-[65] grid h-12 w-12 place-items-center rounded-full text-white shadow-float lg:bottom-6 lg:right-6"
         style={{ background: "var(--laja-gradient)" }}
       >

@@ -57,7 +57,7 @@ export default function Login() {
         {/* Logo */}
         <div className="relative flex items-center gap-3">
           <BrandLogo size={48} rounded={12} />
-          <span className="text-[22px] font-extrabold text-white">LinkAja SIAP</span>
+          <span className="text-[22px] font-extrabold text-white">LinkAja PUTAR</span>
         </div>
 
         {/* Headline utama */}
@@ -75,7 +75,7 @@ export default function Login() {
 
           <div className="mt-8 space-y-3">
             {[
-              { icon: Layers, t: "Kantong Otomatis", d: "Dana masuk langsung terbagi ke kebutuhanmu." },
+              { icon: Layers, t: "Kantong Otomatis", d: "Tunjangan & penghasilan masuk langsung terbagi ke kebutuhanmu." },
               { icon: RefreshCw, t: "Siklus Manfaat", d: "Tiap transaksi mengisi kantong kebutuhan berikutnya." },
               { icon: Sprout, t: "Tumbuh Otomatis", d: "Saldo berkembang otomatis 5,5%/th lewat reksa dana." },
             ].map((f) => {
@@ -115,7 +115,7 @@ export default function Login() {
         <div className="w-full max-w-[360px]">
           <h2 className="text-[26px] font-extrabold text-ink">Selamat datang</h2>
           <p className="mt-1 text-[13.5px] text-ink-2">
-            Masuk atau buat akun LinkAja SIAP kamu.
+            Masuk atau buat akun LinkAja PUTAR kamu.
           </p>
 
           {/* Tab switch */}
@@ -149,7 +149,7 @@ export default function Login() {
               >
                 <p className="text-[12.5px] text-ink-2">
                   Masuk menggunakan akun Google kamu. Nama yang dipakai di
-                  LinkAja SIAP sesuai profil Google.
+                  LinkAja PUTAR sesuai profil Google.
                 </p>
 
                 <div>

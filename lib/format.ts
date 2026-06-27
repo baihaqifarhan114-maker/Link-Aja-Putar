@@ -1,5 +1,5 @@
 /**
- * Pemformatan mata uang & waktu untuk LinkAja SIAP.
+ * Pemformatan mata uang & waktu untuk LinkAja PUTAR.
  * Selalu aman: tidak pernah mengembalikan NaN / Infinity / nilai negatif yang aneh.
  */
 

@@ -2,7 +2,7 @@
   "name": "linkaja-siap",
   "version": "1.0.0",
   "private": true,
-  "description": "LinkAja SIAP — Saldo Inti untuk Aktivitas Pokok. Prototipe fungsional BCC StudentsxCEOs 15, Tim GGMU.",
+  "description": "LinkAja PUTAR — Penghasilan masuk, untung otomatis, transaksi anchor rutin. BCC StudentsxCEOs 15, Tim GGMU.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

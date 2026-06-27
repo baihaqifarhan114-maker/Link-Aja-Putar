@@ -1,7 +1,6 @@
 "use client";
 
-import { animate, motion, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { RefreshCw } from "lucide-react";
 import type { PocketId } from "@/lib/types";
 import { LOOP_ORDER } from "@/lib/constants";
@@ -27,8 +26,8 @@ const NODE_LABEL: Record<PocketId, string> = {
   utama: "Utama",
 };
 
-/** Kurva Bézier yang membusur keluar dari pusat agar membentuk loop yang mulus. */
-function curvePath(a: Pt, b: Pt, bow = 30): string {
+/** Titik kontrol Bézier yang membusur keluar dari pusat → loop mulus. */
+function ctrl(a: Pt, b: Pt, bow = 30): Pt {
   const mx = (a.x + b.x) / 2;
   const my = (a.y + b.y) / 2;
   let dx = mx - C;
@@ -36,46 +35,40 @@ function curvePath(a: Pt, b: Pt, bow = 30): string {
   const len = Math.hypot(dx, dy) || 1;
   dx /= len;
   dy /= len;
-  const cx = mx + dx * bow;
-  const cy = my + dy * bow;
-  return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`;
+  return { x: mx + dx * bow, y: my + dy * bow };
+}
+
+function segPath(a: Pt, b: Pt): string {
+  const c = ctrl(a, b);
+  return `M ${a.x} ${a.y} Q ${c.x} ${c.y} ${b.x} ${b.y}`;
+}
+
+/** Satu path tertutup melewati seluruh kantong → lintasan komet "berputar". */
+function closedLoopPath(): string {
+  const ids = LOOP_ORDER;
+  let d = `M ${NODE_POS[ids[0]].x} ${NODE_POS[ids[0]].y}`;
+  for (let i = 0; i < ids.length; i++) {
+    const a = NODE_POS[ids[i]];
+    const b = NODE_POS[ids[(i + 1) % ids.length]];
+    const c = ctrl(a, b);
+    d += ` Q ${c.x} ${c.y} ${b.x} ${b.y}`;
+  }
+  return `${d} Z`;
 }
 
 type Props = {
   from: PocketId;
   to: PocketId;
-  /** ubah untuk memutar ulang animasi */
+  /** ubah untuk memutar ulang highlight segmen aktif */
   replayKey?: number;
 };
 
+const LOOP_D = closedLoopPath();
+
 export function BerkahLoop({ from, to, replayKey = 0 }: Props) {
   const reduce = useReducedMotion();
-  const activeRef = useRef<SVGPathElement>(null);
-  const [dot, setDot] = useState<Pt>(NODE_POS[from]);
-
-  const activeD = curvePath(NODE_POS[from], NODE_POS[to]);
-
-  useEffect(() => {
-    const path = activeRef.current;
-    if (!path) return;
-    const total = path.getTotalLength();
-    if (reduce) {
-      const p = path.getPointAtLength(total);
-      setDot({ x: p.x, y: p.y });
-      return;
-    }
-    const controls = animate(0, 1, {
-      duration: 1.8,
-      ease: "easeInOut",
-      repeat: Infinity,
-      repeatDelay: 0.5,
-      onUpdate: (t) => {
-        const p = path.getPointAtLength(t * total);
-        setDot({ x: p.x, y: p.y });
-      },
-    });
-    return () => controls.stop();
-  }, [from, to, reduce, replayKey, activeD]);
+  const activeD = segPath(NODE_POS[from], NODE_POS[to]);
+  const target = NODE_POS[to];
 
   return (
     <div className="relative mx-auto aspect-square w-[290px]">
@@ -85,27 +78,16 @@ export function BerkahLoop({ from, to, replayKey = 0 }: Props) {
             <stop offset="0%" stopColor="#E11B22" />
             <stop offset="100%" stopColor="#C2185B" />
           </linearGradient>
+          {/* path lintasan komet (tak terlihat, hanya acuan gerak) */}
+          <path id="putar-loop" d={LOOP_D} fill="none" />
         </defs>
 
         {/* loop dasar (faint) */}
-        {LOOP_ORDER.map((id, i) => {
-          const a = NODE_POS[id];
-          const b = NODE_POS[LOOP_ORDER[(i + 1) % LOOP_ORDER.length]];
-          return (
-            <path
-              key={id}
-              d={curvePath(a, b)}
-              fill="none"
-              stroke="#ECECEF"
-              strokeWidth={7}
-              strokeLinecap="round"
-            />
-          );
-        })}
+        <path d={LOOP_D} fill="none" stroke="#ECECEF" strokeWidth={7} strokeLinecap="round" />
 
-        {/* arc aktif (gradient, digambar) */}
+        {/* segmen aktif (gradient, digambar masuk) */}
         <motion.path
-          ref={activeRef}
+          key={`active-${from}-${to}-${replayKey}`}
           d={activeD}
           fill="none"
           stroke="url(#laja-loop)"
@@ -114,13 +96,27 @@ export function BerkahLoop({ from, to, replayKey = 0 }: Props) {
           initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          key={`active-${from}-${to}-${replayKey}`}
         />
 
-        {/* dot bercahaya */}
-        <circle cx={dot.x} cy={dot.y} r={13} fill="#C2185B" opacity={0.18} />
-        <circle cx={dot.x} cy={dot.y} r={6.5} fill="url(#laja-loop)" />
-        <circle cx={dot.x} cy={dot.y} r={2.4} fill="#fff" opacity={0.9} />
+        {/* komet yang berputar mulus mengelilingi loop (SMIL native, anti-jank) */}
+        <g>
+          <circle r={13} fill="#C2185B" opacity={0.16} />
+          <circle r={6.5} fill="url(#laja-loop)" />
+          <circle r={2.4} fill="#fff" opacity={0.9} />
+          {reduce ? (
+            <animateTransform
+              attributeName="transform"
+              type="translate"
+              values={`${target.x} ${target.y}`}
+              dur="0.001s"
+              fill="freeze"
+            />
+          ) : (
+            <animateMotion dur="6s" repeatCount="indefinite" rotate="0" keyPoints="0;1" keyTimes="0;1" calcMode="linear">
+              <mpath href="#putar-loop" />
+            </animateMotion>
+          )}
+        </g>
       </svg>
 
       {/* pusat */}
@@ -150,11 +146,7 @@ export function BerkahLoop({ from, to, replayKey = 0 }: Props) {
             key={id}
             className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
             style={{ left: `${(pos.x / 320) * 100}%`, top: `${(pos.y / 320) * 100}%` }}
-            animate={
-              isTarget && !reduce
-                ? { scale: [1, 1.14, 1] }
-                : { scale: 1 }
-            }
+            animate={isTarget && !reduce ? { scale: [1, 1.14, 1] } : { scale: 1 }}
             transition={
               isTarget && !reduce
                 ? { duration: 1.6, repeat: Infinity, ease: "easeInOut" }
@@ -164,9 +156,7 @@ export function BerkahLoop({ from, to, replayKey = 0 }: Props) {
             <span
               className="grid h-12 w-12 place-items-center rounded-2xl bg-white"
               style={{
-                boxShadow: isTarget
-                  ? "0 6px 18px rgba(194,24,91,0.35)"
-                  : "var(--shadow-card)",
+                boxShadow: isTarget ? "0 6px 18px rgba(194,24,91,0.35)" : "var(--shadow-card)",
                 outline: isSource ? `2px solid ${meta.fg}` : "none",
               }}
             >

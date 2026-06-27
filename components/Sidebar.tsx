@@ -69,7 +69,7 @@ export function Sidebar() {
         <BrandLogo size={36} rounded={10} />
         <div>
           <p className="text-[15px] font-extrabold leading-tight text-ink">LinkAja</p>
-          <p className="text-[11px] font-bold text-laja-red">SIAP</p>
+          <p className="text-[11px] font-bold text-laja-red">PUTAR</p>
         </div>
       </div>
 

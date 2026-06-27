@@ -21,7 +21,7 @@ import { ToastProvider } from "./Toast";
 /** Rute yang tampilkan chrome (nav, sidebar, demo ctrl). */
 const APP_ROUTES = [
   "/beranda", "/riwayat", "/promo", "/akun", "/atur",
-  "/bayar", "/transit", "/topup", "/transfer", "/siklus", "/berkah",
+  "/bayar", "/transit", "/topup", "/transfer", "/siklus", "/berkah", "/asisten",
 ];
 /** Rute publik tanpa auth. */
 const PUBLIC_ROUTES = ["/", "/splash", "/login"];
@@ -31,7 +31,7 @@ const DEPTH: Record<string, number> = {
   "/": 0, "/login": 0, "/splash": 1,
   "/beranda": 2, "/riwayat": 2, "/promo": 2, "/akun": 2,
   "/atur": 3, "/bayar": 3, "/transit": 3,
-  "/topup": 3, "/transfer": 3, "/siklus": 3, "/berkah": 3,
+  "/topup": 3, "/transfer": 3, "/siklus": 3, "/berkah": 3, "/asisten": 3,
 };
 function routeDepth(p: string) {
   return DEPTH[p] ?? 3;

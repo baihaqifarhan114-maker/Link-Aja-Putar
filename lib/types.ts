@@ -10,7 +10,7 @@ export type Pocket = {
   balance: number;
   /** persentase alokasi auto-split (0..40); utama = sisanya (display only) */
   allocationPct: number;
-  /** true untuk Kantong Utama yang tumbuh halal */
+  /** true untuk Kantong Utama yang tumbuh otomatis (reksa dana pasar uang) */
   isGrowing: boolean;
 };
 

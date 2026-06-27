@@ -11,10 +11,10 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "LinkAja SIAP — Saldo Inti untuk Aktivitas Pokok",
+  title: "LinkAja PUTAR — Penghasilan Masuk, Untung Otomatis, Transaksi Rutin",
   description:
-    "Kantong otomatis, Siklus Manfaat, dan saldo yang tumbuh otomatis. LinkAja SIAP — Saldo Inti untuk Aktivitas Pokok.",
-  applicationName: "LinkAja SIAP",
+    "Tunjangan & penghasilan masuk, otomatis terbagi ke kantong, tumbuh lewat reksa dana pasar uang, lalu berputar di transit, Pertamina, dan tagihan. LinkAja PUTAR.",
+  applicationName: "LinkAja PUTAR",
   icons: {
     icon: "/linkaja-logo.png",
     apple: "/linkaja-logo.png",

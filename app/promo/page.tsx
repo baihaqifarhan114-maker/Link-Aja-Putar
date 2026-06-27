@@ -39,7 +39,7 @@ export default function Promo() {
         >
           <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-white/10" />
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-bold">
-            <Sprout size={13} /> Eksklusif SIAP
+            <Sprout size={13} /> Eksklusif PUTAR
           </span>
           <h2 className="mt-3 text-[20px] font-extrabold leading-tight">
             Siklus Manfaat
@@ -54,7 +54,7 @@ export default function Promo() {
         </Link>
 
         <div>
-          <h3 className="mb-2.5 text-[15px] font-extrabold text-ink">Layanan SIAP</h3>
+          <h3 className="mb-2.5 text-[15px] font-extrabold text-ink">Layanan PUTAR</h3>
           <div className="grid grid-cols-3 gap-3">
             {SERVICES.map((s) => {
               const Icon = s.icon;

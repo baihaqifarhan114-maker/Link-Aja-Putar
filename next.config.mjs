@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
-    // Prototipe demo — lint tidak memblok build di Vercel.
+    // Lint tidak memblok build di Vercel.
     ignoreDuringBuilds: true,
   },
 };

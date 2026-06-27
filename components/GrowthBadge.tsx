@@ -9,7 +9,7 @@ type Props = {
   variant?: "onDark" | "onLight";
 };
 
-/** Pil "Tumbuh halal +RpX bulan ini". */
+/** Pil "Tumbuh otomatis +RpX bulan ini". */
 export function GrowthBadge({ amount, variant = "onDark" }: Props) {
   const onDark = variant === "onDark";
   return (

@@ -60,7 +60,7 @@ export default function Akun() {
             </p>
           </div>
           <div className="card p-4">
-            <p className="text-[11.5px] text-ink-2">Total berkah</p>
+            <p className="text-[11.5px] text-ink-2">Total manfaat</p>
             <p className="text-[18px] font-extrabold tabular-nums text-laja-magenta">
               {formatRupiah(totalBerkah)}
             </p>
@@ -107,9 +107,9 @@ export default function Akun() {
             <BadgeCheck size={16} className="text-laja-red" /> Tentang
           </div>
           <p className="text-[12.5px] leading-relaxed text-ink-2">
-            LinkAja SIAP (Saldo Inti untuk Aktivitas Pokok) membantu kamu mengelola
-            kebutuhan pokok lewat kantong otomatis, Siklus Manfaat, dan saldo yang
-            tumbuh otomatis lewat reksa dana pasar uang. BCC StudentsxCEOs 15 — GGMU.
+            LinkAja PUTAR membantu kamu mengelola kebutuhan pokok lewat tunjangan yang
+            masuk otomatis, kantong otomatis, Siklus Manfaat, dan saldo yang tumbuh
+            otomatis lewat reksa dana pasar uang. BCC StudentsxCEOs 15 — GGMU.
           </p>
         </div>
 
@@ -118,13 +118,13 @@ export default function Akun() {
           onClick={() => {
             resetDemo();
             toast.show({
-              message: "Data demo direset ke kondisi awal ✓",
+              message: "Data diatur ulang ke kondisi awal ✓",
               variant: "success",
             });
           }}
           className="press flex w-full items-center justify-center gap-2 rounded-2xl bg-white py-3.5 text-[14px] font-bold text-laja-red surface-line"
         >
-          <RotateCcw size={16} /> Reset Data Demo
+          <RotateCcw size={16} /> Atur Ulang Data
         </button>
 
         <button

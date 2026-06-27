@@ -1,6 +1,6 @@
 import type { BerkahEvent, Pocket, PocketId, Txn } from "./types";
 
-/** Urutan loop Berkah Berputar: bensin → transit → tagihan → dapur → (bensin). */
+/** Urutan loop Siklus Manfaat: bensin → transit → tagihan → dapur → (bensin). */
 export const LOOP_ORDER: PocketId[] = ["bensin", "transit", "tagihan", "dapur"];
 
 /** Kantong berikutnya dalam loop. Utama tidak ada di loop → mulai dari bensin. */
@@ -10,10 +10,10 @@ export function nextPocket(id: PocketId): PocketId {
   return LOOP_ORDER[(idx + 1) % LOOP_ORDER.length];
 }
 
-/** Parameter ekonomi prototipe. */
+/** Parameter ekonomi. */
 export const TRANSIT_FARE = 4000; // Rp4.000 per perjalanan KRL/MRT
-export const DEFAULT_INCOME = 2_450_000; // demo gaji/insentif
-export const GROWTH_ANNUAL = 0.055; // 5,5% / tahun (≈ RDPU syariah, akad mudharabah)
+export const DEFAULT_INCOME = 2_450_000; // tunjangan + penghasilan default
+export const GROWTH_ANNUAL = 0.055; // 5,5% / tahun (≈ reksa dana pasar uang)
 export const GROWTH_MONTHLY = GROWTH_ANNUAL / 12;
 
 export const BERKAH_RATE = 0.01; // 1% dari nilai transaksi
@@ -21,13 +21,13 @@ export const BERKAH_MIN = 500;
 export const BERKAH_MAX = 5000;
 export const ALLOC_MAX = 40; // alokasi maksimum per kantong (%)
 
-/** Hitung bagi hasil Berkah Berputar untuk sebuah transaksi. */
+/** Hitung bagi hasil Siklus Manfaat untuk sebuah transaksi. */
 export function berkahReward(amount: number): number {
   const raw = Math.round(Math.abs(amount) * BERKAH_RATE);
   return Math.min(BERKAH_MAX, Math.max(BERKAH_MIN, raw));
 }
 
-/** ID unik ringan (cukup untuk demo client-side). */
+/** ID unik ringan (client-side). */
 let _seq = 0;
 export function uid(prefix = "id"): string {
   _seq += 1;
@@ -60,7 +60,8 @@ function seedTransactions(now: number): Txn[] {
     { id: uid("tx"), ts: now - 1 * DAY - 3 * HOUR, title: "KRL Stasiun Sudirman", category: "transit", amount: -4_000, pocketId: "transit", merchant: "KAI Commuter" },
     { id: uid("tx"), ts: now - 1 * DAY - 6 * HOUR, title: "Bensin SPBU Pertamina", category: "bensin", amount: -50_000, pocketId: "bensin", merchant: "SPBU Pertamina" },
     { id: uid("tx"), ts: now - 1 * DAY - 9 * HOUR, title: "Transfer ke Andi Saputra", category: "transfer", amount: -75_000, pocketId: "utama", merchant: "Andi Saputra" },
-    { id: uid("tx"), ts: now - 2 * DAY, title: "Penghasilan masuk", category: "income", amount: 2_450_000, pocketId: "utama" },
+    { id: uid("tx"), ts: now - 2 * DAY, title: "Tunjangan transport & BBM — Telkom Group", category: "income", amount: 1_200_000, pocketId: "utama", merchant: "Telkom Group" },
+    { id: uid("tx"), ts: now - 2 * DAY - 30 * MIN, title: "Penghasilan masuk", category: "income", amount: 2_450_000, pocketId: "utama" },
     { id: uid("tx"), ts: now - 3 * DAY - 2 * HOUR, title: "Listrik PLN", category: "tagihan", amount: -150_000, pocketId: "tagihan", merchant: "PLN Mobile" },
     { id: uid("tx"), ts: now - 3 * DAY - 5 * HOUR, title: "Imbal hasil otomatis", category: "growth", amount: 6_200, pocketId: "utama" },
     { id: uid("tx"), ts: now - 4 * DAY, title: "Warung Bu Tini", category: "qris", amount: -18_000, pocketId: "dapur", merchant: "Warung Bu Tini" },
@@ -69,7 +70,7 @@ function seedTransactions(now: number): Txn[] {
   return list.sort((a, b) => b.ts - a.ts);
 }
 
-/** Riwayat Berkah Berputar awal (selaras dengan dua transaksi berkah di atas). */
+/** Riwayat Siklus Manfaat awal (selaras dengan dua transaksi di atas). */
 function seedBerkah(now: number): { events: BerkahEvent[]; last: BerkahEvent; total: number } {
   const events: BerkahEvent[] = [
     { id: uid("bk"), ts: now - 3 * HOUR + 1000, amount: 500, fromPocket: "dapur", toPocket: "bensin" },

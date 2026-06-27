@@ -45,7 +45,7 @@ export default function Splash() {
       >
         LinkAja{" "}
         <span className="rounded-lg bg-white px-2 py-0.5 text-gradient-brand">
-          SIAP
+          PUTAR
         </span>
       </motion.h1>
 
@@ -55,7 +55,7 @@ export default function Splash() {
         transition={{ delay: reduce ? 0 : 0.55, duration: 0.5 }}
         className="mt-3 text-[14px] font-semibold text-white/90"
       >
-        Saldo Inti untuk Aktivitas Pokok
+        Penghasilan masuk, untung otomatis, transaksi rutin
       </motion.p>
 
       <div className="absolute bottom-16 h-1 w-44 overflow-hidden rounded-full bg-white/25">

@@ -66,7 +66,7 @@ type PayResult =
     };
 
 /**
- * Inti pembayaran + Berkah Berputar. Pure: menerima snapshot state,
+ * Inti pembayaran + Siklus Manfaat. Pure: menerima snapshot state,
  * mengembalikan slice baru atau {ok:false} bila saldo tak mencukupi.
  * Aturan: bila kantong sumber kurang, tutupi kekurangan dari Kantong Utama;
  * bila masih kurang → gagal (tidak ada mutasi).
@@ -199,7 +199,7 @@ export const useAppStore = create<AppState>()(
           const txn: Txn = {
             id: uid("tx"),
             ts: Date.now(),
-            title: "Penghasilan masuk",
+            title: "Tunjangan & penghasilan masuk",
             category: "income",
             amount: amt,
             pocketId: "utama",

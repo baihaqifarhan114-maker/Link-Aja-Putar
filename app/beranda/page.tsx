@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ChevronRight, Settings2, TrainFront, Wallet } from "lucide-react";
+import { ChevronRight, Settings2, Sparkles, TrainFront, Wallet } from "lucide-react";
 import { useAppStore } from "@/lib/store";
 import { DEFAULT_INCOME } from "@/lib/constants";
 import { formatRupiah } from "@/lib/format";
@@ -93,9 +93,9 @@ export default function Beranda() {
                 <Wallet size={20} />
               </span>
               <div className="flex-1">
-                <p className="text-[13px] font-extrabold">💼 Terima Penghasilan</p>
+                <p className="text-[13px] font-extrabold">💼 Tunjangan & Penghasilan</p>
                 <p className="text-[11px] text-white/85">
-                  {autoSplit ? "Terbagi otomatis" : "Ke Kantong Utama"}
+                  {autoSplit ? "Masuk & terbagi otomatis" : "Ke Kantong Utama"}
                 </p>
               </div>
               <ChevronRight size={18} className="text-white/70" />
@@ -117,15 +117,54 @@ export default function Beranda() {
             <Wallet size={22} />
           </span>
           <div className="flex-1">
-            <p className="text-[14px] font-extrabold">💼 Terima Penghasilan</p>
+            <p className="text-[14px] font-extrabold">💼 Tunjangan & Penghasilan Masuk</p>
             <p className="text-[12px] text-white/85">
               {autoSplit
-                ? "Otomatis terbagi ke kantong kebutuhan"
+                ? "Tunjangan transport/BBM masuk & terbagi otomatis"
                 : "Masuk ke Kantong Utama"}
             </p>
           </div>
           <ChevronRight size={20} className="text-white/80" />
         </button>
+
+        {/* Cara kerja PUTAR */}
+        <div className="rounded-[20px] bg-white p-4 shadow-card">
+          <p className="mb-3 text-[12.5px] font-bold text-ink">Cara kerja LinkAja PUTAR</p>
+          <div className="flex items-stretch justify-between gap-1.5 text-center">
+            <div className="flex-1">
+              <div
+                className="mx-auto mb-1.5 grid h-10 w-10 place-items-center rounded-xl text-[18px]"
+                style={{ background: "rgba(225,27,34,0.10)" }}
+              >
+                💰
+              </div>
+              <p className="text-[11.5px] font-extrabold text-ink">Masuk</p>
+              <p className="text-[10px] leading-tight text-ink-2">Tunjangan transport & BBM</p>
+            </div>
+            <div className="flex items-center pt-3 text-muted">→</div>
+            <div className="flex-1">
+              <div
+                className="mx-auto mb-1.5 grid h-10 w-10 place-items-center rounded-xl text-[18px]"
+                style={{ background: "rgba(14,143,82,0.12)" }}
+              >
+                🌱
+              </div>
+              <p className="text-[11.5px] font-extrabold text-ink">Tumbuh</p>
+              <p className="text-[10px] leading-tight text-ink-2">Kantong + reksa dana</p>
+            </div>
+            <div className="flex items-center pt-3 text-muted">→</div>
+            <div className="flex-1">
+              <div
+                className="mx-auto mb-1.5 grid h-10 w-10 place-items-center rounded-xl text-[18px]"
+                style={{ background: "rgba(2,132,199,0.12)" }}
+              >
+                🔄
+              </div>
+              <p className="text-[11.5px] font-extrabold text-ink">Berputar</p>
+              <p className="text-[10px] leading-tight text-ink-2">Transit · SPBU · Tagihan</p>
+            </div>
+          </div>
+        </div>
 
         {/* Kantong grid */}
         <div>
@@ -168,6 +207,25 @@ export default function Beranda() {
           </div>
           <ChevronRight size={20} className="text-muted" />
         </button>
+
+        {/* Asisten Alokasi (AI) */}
+        <button
+          type="button"
+          onClick={() => router.push("/asisten")}
+          className="press flex w-full items-center gap-3 rounded-[20px] p-4 text-left text-white shadow-float"
+          style={{ background: "var(--laja-gradient)" }}
+        >
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white/20">
+            <Sparkles size={22} />
+          </span>
+          <div className="flex-1">
+            <p className="text-[14px] font-extrabold">Asisten Alokasi (AI)</p>
+            <p className="text-[12px] text-white/85">
+              Tanya cara atur uang & langkah berikutnya
+            </p>
+          </div>
+          <ChevronRight size={20} className="text-white/80" />
+        </button>
       </div>
 
       <PocketDetailSheet pocketId={selected} onClose={() => setSelected(null)} />
@@ -175,10 +233,10 @@ export default function Beranda() {
       <BottomSheet
         open={incomeOpen}
         onClose={() => setIncomeOpen(false)}
-        title="Terima Penghasilan"
+        title="Tunjangan & Penghasilan Masuk"
       >
         <p className="mb-3 text-[13px] leading-relaxed text-ink-2">
-          Masukkan nominal penghasilan / insentif yang diterima.
+          Masukkan nominal tunjangan / penghasilan yang diterima.
           {autoSplit
             ? " Dana otomatis terbagi sesuai alokasi kantongmu."
             : " Bagi otomatis sedang nonaktif — dana masuk ke Kantong Utama."}
