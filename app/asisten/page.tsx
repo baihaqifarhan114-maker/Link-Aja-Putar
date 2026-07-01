@@ -18,7 +18,15 @@ const QUICK = [
 ];
 
 const INTRO =
-  "Halo! Aku Asisten Alokasi. Aku bisa bantu atur kantongmu, lihat ke mana uang paling banyak keluar, dan kasih langkah berikutnya. Coba tanya, atau pilih salah satu di bawah 👇";
+  "Halo! Aku Asisten Alokasi. Aku bisa bantu atur kantongmu, lihat ke mana uang paling banyak keluar, dan kasih langkah berikutnya. Kalau ada yang kurang jelas, aku juga bakal tanya balik ya. Coba tanya, atau pilih salah satu di bawah 👇";
+
+// Bersihkan sisa format markdown (mis. **tebal**, *miring*, # judul) agar tidak muncul mentah di chat.
+const clean = (s: string) =>
+  s
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*/g, "")
+    .replace(/^#{1,6}\s+/gm, "")
+    .trim();
 
 export default function Asisten() {
   const router = useRouter();
@@ -113,7 +121,7 @@ export default function Asisten() {
               }
               style={m.role === "user" ? { background: "var(--laja-gradient)" } : undefined}
             >
-              <p className="whitespace-pre-line">{m.content}</p>
+              <p className="whitespace-pre-line">{clean(m.content)}</p>
               {m.role === "assistant" && m.source && (
                 <span
                   className={

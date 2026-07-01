@@ -44,7 +44,10 @@ export default function Splash() {
         className="mt-7 text-[32px] font-extrabold tracking-tight text-white"
       >
         LinkAja{" "}
-        <span className="rounded-lg bg-white px-2 py-0.5 text-gradient-brand">
+        <span
+          className="rounded-lg bg-white px-2 py-0.5 font-extrabold"
+          style={{ color: "#e11b22" }}
+        >
           PUTAR
         </span>
       </motion.h1>
